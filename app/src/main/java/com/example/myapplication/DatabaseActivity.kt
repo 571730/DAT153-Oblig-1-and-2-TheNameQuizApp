@@ -59,6 +59,10 @@ class MyAdapter(private val myDataset: ArrayList<Person>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.textView.itemName.text = myDataset[position].name
         holder.textView.itemImage.setImageBitmap(myDataset[position].image)
+        holder.textView.button4.setOnClickListener{
+            myDataset.removeAt(position)
+            notifyDataSetChanged()
+        }
     }
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = myDataset.size
