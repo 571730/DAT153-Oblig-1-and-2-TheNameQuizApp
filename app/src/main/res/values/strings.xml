@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="btnDb">See all names</string>
+    <string name="btnQuiz">Play the quiz!</string>
+    <string name="btnAdd">Add new names</string>
+    <string name="btnRemove">Remove</string>
+    <string name="btnFile">Pick a photo</string>
+    <string name="btnCamera">Use camera</string>
+    <string name="pickName">Enter name..</string>
+    <string name="addPerson">Add person</string>
+    <string name="yourScore">Your score</string>
+    <string name="slash">/</string>
+    <string name="zero">0</string>
+    <string name="answer">Take a guess..</string>
+    <string name="submit">Submit</string>
+    <string name="restart">Play again</string>
+</resources>
