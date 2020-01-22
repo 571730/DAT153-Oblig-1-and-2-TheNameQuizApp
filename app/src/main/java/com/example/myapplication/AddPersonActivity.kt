@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_add_person.*
 
 
 class AddPersonActivity : AppCompatActivity() {
@@ -20,17 +21,18 @@ class AddPersonActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_person)
     }
 
+    val REQUEST_IMAGE_CAPTURE = 1
+    val REQUEST_IMAGE_PICK = 2
+
     fun pickPhoto(view: View){
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, 1000)
+        startActivityForResult(intent, REQUEST_IMAGE_PICK)
     }
 
     fun takePhoto(view: View){
         dispatchTakePictureIntent()
     }
-
-    val REQUEST_IMAGE_CAPTURE = 1
 
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
@@ -41,29 +43,19 @@ class AddPersonActivity : AppCompatActivity() {
     }
 
     fun addPerson(view: View){
-        val nameInput = findViewById<EditText>(R.id.inputName)
-        val name: String = nameInput.text.toString()
-        val image: ImageView = findViewById<ImageView>(R.id.imageView)
-        val bitmap: Bitmap = (image.drawable as BitmapDrawable).bitmap
-        val person = Person(name, bitmap)
+        val bitmap: Bitmap = (imageView.drawable as BitmapDrawable).bitmap
+        val person = Person(inputName.text.toString(), bitmap)
         val data = (application as AppSingleton).data
         data.add(person)
-        Toast.makeText(this, "$name added to database!", Toast.LENGTH_SHORT).show()
-        nameInput.setText("")
-        image.setImageDrawable(null)
-    }
-
-    fun checkIfFieldsAreValid(){
-        val name: String = findViewById<EditText>(R.id.inputName).text.toString()
-        val imageView = findViewById<ImageView>(R.id.imageView)
-        val addButton = findViewById<Button>(R.id.buttonAdd)
-        addButton.isClickable = name.length > 2 && imageView.drawable != null
+        Toast.makeText(this, "${inputName.text} added to database!", Toast.LENGTH_SHORT).show()
+        inputName.setText("")
+        imageView.setImageDrawable(null)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val imageView = findViewById<ImageView>(R.id.imageView)
-        if (resultCode == Activity.RESULT_OK && requestCode == 1000){
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_PICK){
             imageView.setImageURI(data?.data)
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {

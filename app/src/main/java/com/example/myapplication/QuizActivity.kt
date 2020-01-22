@@ -16,13 +16,12 @@ class QuizActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
-        val editText = findViewById<EditText>(R.id.inputAnswer)
         data = (application as AppSingleton).data
         quiz = Quiz(data)
-        editText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        inputAnswer.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 if (!quiz.done){
-                    submitAnswer(editText)
+                    submitAnswer(inputAnswer)
                 }
                 return@OnKeyListener true
             }
@@ -32,29 +31,24 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun runRound(){
-        val imageView = findViewById<ImageView>(R.id.imageViewGuess)
         val person = quiz.pickPerson()
-        imageView.setImageBitmap(person.image)
+        imageViewGuess.setImageBitmap(person.image)
     }
 
     fun restart(view: View){
         quiz = Quiz(data)
-        findViewById<Button>(R.id.buttonRestart).visibility = View.INVISIBLE
-        findViewById<Button>(R.id.btnSubmit).visibility = View.VISIBLE
-        findViewById<TextView>(R.id.textPersons).text = "0"
-        findViewById<TextView>(R.id.textScore).text = "0"
+        buttonRestart.visibility = View.INVISIBLE
+        btnSubmit.visibility = View.VISIBLE
+        textPersons.text = "0"
+        textScore.text = "0"
         runRound()
     }
 
     fun submitAnswer(view: View){
-        val answerEdit = findViewById<EditText>(R.id.inputAnswer)
-        val answer: String = answerEdit.text.toString()
-        val attempts = findViewById<TextView>(R.id.textPersons)
-        val score = findViewById<TextView>(R.id.textScore)
-        quiz.answer(answer)
-        attempts.text = quiz.attempts.toString()
-        score.text = quiz.score.toString()
-        answerEdit.setText("")
+        quiz.answer(inputAnswer.text.toString())
+        textPersons.text = quiz.attempts.toString()
+        textScore.text = quiz.score.toString()
+        inputAnswer.setText("")
         if (!quiz.done){
             runRound()
         } else {
