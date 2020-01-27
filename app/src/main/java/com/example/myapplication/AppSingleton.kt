@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import android.app.Application
 import android.graphics.BitmapFactory
-import androidx.core.graphics.drawable.toDrawable
 
 class AppSingleton : Application() {
     val data = ArrayList<Person>()

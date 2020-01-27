@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/background_gradient"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
 
     <Button
         android:id="@+id/button2"
+        android:background="@drawable/button_gradient"
+        android:padding="25dp"
+        android:textColor="@color/colorDarkestPurple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="openDbActivity"
@@ -21,6 +25,9 @@
 
     <Button
         android:id="@+id/button"
+        android:background="@drawable/button_gradient"
+        android:padding="25dp"
+        android:textColor="@color/colorDarkestPurple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="openQuizActivity"
@@ -34,6 +41,9 @@
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
+        android:background="@drawable/button_gradient"
+        android:padding="25dp"
+        android:textColor="@color/colorDarkestPurple"
         android:layout_height="wrap_content"
         android:onClick="openAddPersonActivity"
         android:text="@string/btnAdd"

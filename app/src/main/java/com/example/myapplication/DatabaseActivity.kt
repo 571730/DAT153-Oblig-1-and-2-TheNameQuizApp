@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.my_text_view.*
 import kotlinx.android.synthetic.main.my_text_view.view.*
 
 class DatabaseActivity : AppCompatActivity() {
@@ -59,6 +60,7 @@ class MyAdapter(private val myDataset: ArrayList<Person>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.textView.itemName.text = myDataset[position].name
         holder.textView.itemImage.setImageBitmap(myDataset[position].image)
+        holder.textView.itemImage.clipToOutline = true
         holder.textView.button4.setOnClickListener{
             myDataset.removeAt(position)
             notifyDataSetChanged()

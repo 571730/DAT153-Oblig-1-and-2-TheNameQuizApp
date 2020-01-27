@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     tools:context=".AddPersonActivity">
 
     <ImageView
@@ -13,6 +14,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,6 +22,9 @@
 
     <Button
         android:id="@+id/buttonFile"
+        android:background="@drawable/mybutton_purp"
+        android:padding="10dp"
+        android:textColor="@color/colorDarkestPurple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -32,6 +37,9 @@
 
     <Button
         android:id="@+id/buttonCamera"
+        android:background="@drawable/mybutton_purp"
+        android:padding="10dp"
+        android:textColor="@color/colorDarkestPurple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btnCamera"
@@ -52,18 +60,25 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/pickName"
+        android:textColor="@color/white"
+        android:textColorHint="@color/colorPurple"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonFile" />
 
     <Button
         android:id="@+id/buttonAdd"
+        android:background="@drawable/button_gradient"
+        android:padding="20dp"
+        android:textColor="@color/colorDarkestPurple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:text="@string/addPerson"
+        android:textSize="17sp"
         android:clickable="true"
         android:onClick="addPerson"
         app:layout_constraintEnd_toEndOf="parent"
