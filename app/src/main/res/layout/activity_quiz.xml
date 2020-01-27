@@ -100,6 +100,8 @@
         android:layout_marginEnd="16dp"
         android:text="@string/submit"
         android:onClick="submitAnswer"
+        android:drawableStart="@drawable/ic_whatshot_24dp"
+        android:drawablePadding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputAnswer" />
@@ -118,6 +120,8 @@
         android:text="@string/restart"
         android:visibility="invisible"
         android:onClick="restart"
+        android:drawableStart="@drawable/ic_restore_24dp"
+        android:drawablePadding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputAnswer" />
