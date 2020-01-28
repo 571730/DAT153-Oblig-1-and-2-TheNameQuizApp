@@ -1,10 +1,12 @@
 package com.example.myapplication
 
+import android.animation.Animator
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_quiz.*
@@ -45,9 +47,10 @@ class QuizActivity : AppCompatActivity() {
     }
 
     fun submitAnswer(view: View){
-        quiz.answer(inputAnswer.text.toString())
+        val isCorrect = quiz.answer(inputAnswer.text.toString())
         textPersons.text = quiz.attempts.toString()
         textScore.text = quiz.score.toString()
+        displayFeedback(isCorrect)
         inputAnswer.setText("")
         if (!quiz.done){
             runRound()
@@ -57,6 +60,17 @@ class QuizActivity : AppCompatActivity() {
             buttonRestart.visibility = View.VISIBLE
             inputAnswer.hideKeyboard()
         }
+    }
+
+    private fun displayFeedback(isCorrect: Boolean){
+       if(isCorrect) {
+           textFeedback.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0)
+       } else {
+           textFeedback.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_clear_24dp, 0, 0, 0)
+       }
+        textFeedback.visibility = View.VISIBLE
+        textFeedback.startAnimation(AnimationUtils.loadAnimation(baseContext, R.anim.left_right))
+        textFeedback.visibility = View.INVISIBLE
     }
 
     private fun View.hideKeyboard() {

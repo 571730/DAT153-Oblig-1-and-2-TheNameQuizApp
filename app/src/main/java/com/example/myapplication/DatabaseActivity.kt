@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.my_text_view.*
@@ -31,6 +32,21 @@ class DatabaseActivity : AppCompatActivity() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                (viewAdapter as MyAdapter).removeItem(viewHolder.adapterPosition)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     fun goToAddPerson(view: View){
@@ -68,4 +84,10 @@ class MyAdapter(private val myDataset: ArrayList<Person>) :
     }
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = myDataset.size
+
+    fun removeItem(position: Int) {
+        myDataset.removeAt(position)
+        notifyDataSetChanged()
+    }
+
 }

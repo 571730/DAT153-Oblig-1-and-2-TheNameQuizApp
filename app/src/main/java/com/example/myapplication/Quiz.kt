@@ -7,13 +7,16 @@ class Quiz (data: ArrayList<Person>){
     var index: Int
     var people: ArrayList<Person>
 
-    fun answer(ans: String){
+    fun answer(ans: String): Boolean{
         attempts++
+        var correct = false
         if (ans.equals(people[index].name, true)) {
             score++
+            correct = true
         }
         index++
         done = isDone()
+        return  correct
     }
 
     fun pickPerson(): Person {

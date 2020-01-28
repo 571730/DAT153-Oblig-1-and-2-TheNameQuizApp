@@ -9,5 +9,6 @@ class AppSingleton : Application() {
         super.onCreate()
         data.add(Person("Donald Trump", BitmapFactory.decodeResource(resources, R.drawable.trump)))
         data.add(Person("Donald Trump jr", BitmapFactory.decodeResource(resources, R.drawable.trumpjr)))
+        data.add(Person("Barrack Obama", BitmapFactory.decodeResource(resources, R.drawable.barack_obama)))
     }
 }
