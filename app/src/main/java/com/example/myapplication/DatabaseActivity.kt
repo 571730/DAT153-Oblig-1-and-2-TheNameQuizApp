@@ -26,6 +26,7 @@ class DatabaseActivity : AppCompatActivity() {
         viewManager = LinearLayoutManager(this)
         viewAdapter = MyAdapter(data)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
+            setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
@@ -66,7 +67,7 @@ class MyAdapter(private val myDataset: ArrayList<Person>) :
                                     viewType: Int): MyAdapter.MyViewHolder {
         // create a new view
         val textView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.my_text_view, parent, false)
+            .inflate(R.layout.person_card, parent, false)
         // set the view's size, margins, paddings and layout parameters
         return MyViewHolder(textView)
     }
