@@ -73,7 +73,6 @@ class AddPersonActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         val imageView = findViewById<ImageView>(R.id.imageView)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_PICK){
-//            imageView.setImageURI(data?.data)
             Glide.with(imageView.context)
                 .load(data?.data)
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
@@ -81,7 +80,6 @@ class AddPersonActivity : AppCompatActivity() {
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
             val imageBitmap: Bitmap = data?.extras?.get("data") as Bitmap
-//            imageView.setImageBitmap(imageBitmap)
             Glide.with((imageView))
                 .load(imageBitmap)
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))

@@ -1,25 +1,18 @@
 package com.example.myapplication
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_add_person.view.*
-import kotlinx.android.synthetic.main.my_text_view.*
-import kotlinx.android.synthetic.main.my_text_view.view.*
 import kotlinx.android.synthetic.main.my_text_view.view.button4
 import kotlinx.android.synthetic.main.my_text_view.view.itemImage
 import kotlinx.android.synthetic.main.my_text_view.view.itemName
-import kotlinx.android.synthetic.main.person_card.view.*
-import java.io.File
 
 class DatabaseActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -82,7 +75,6 @@ class MyAdapter(private val myDataset: ArrayList<Person>) :
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.textView.itemName.text = myDataset[position].name
-//        holder.textView.itemImage.setImageBitmap(myDataset[position].image)
         Glide.with(holder.textView.itemImage.context)
             .load(myDataset[position].image)
             .into(holder.textView.itemImage)
