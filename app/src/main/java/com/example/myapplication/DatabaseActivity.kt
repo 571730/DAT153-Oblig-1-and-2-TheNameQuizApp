@@ -26,12 +26,10 @@ class DatabaseActivity : AppCompatActivity() {
         viewManager = LinearLayoutManager(this)
         viewAdapter = MyAdapter(data)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
-            setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
+        // need this to handle swipe to remove from recycleview
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun onMove(
                 recyclerView: RecyclerView,

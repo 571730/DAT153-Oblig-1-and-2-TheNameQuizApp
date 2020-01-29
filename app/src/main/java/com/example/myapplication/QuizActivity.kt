@@ -20,6 +20,7 @@ class QuizActivity : AppCompatActivity() {
         setContentView(R.layout.activity_quiz)
         data = (application as AppSingleton).data
         quiz = Quiz(data)
+        // enables the user to press enter to submit an answer
         inputAnswer.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 if (!quiz.done){
@@ -32,11 +33,18 @@ class QuizActivity : AppCompatActivity() {
         runRound()
     }
 
+    /**
+     * called at the start of each round
+     * will get the next person and display the image
+     */
     private fun runRound(){
         val person = quiz.pickPerson()
         imageViewGuess.setImageBitmap(person.image)
     }
 
+    /**
+     * Will restart the game
+     */
     fun restart(view: View){
         quiz = Quiz(data)
         buttonRestart.visibility = View.INVISIBLE
@@ -46,6 +54,10 @@ class QuizActivity : AppCompatActivity() {
         runRound()
     }
 
+    /**
+     * Called when user submits answer by pressing enter or the dedicated button
+     * Will check if answer is correct, display feedback and check if the game is done
+     */
     fun submitAnswer(view: View){
         val isCorrect = quiz.answer(inputAnswer.text.toString())
         textPersons.text = quiz.attempts.toString()
@@ -62,6 +74,10 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Used to display feedback on the users answers
+     * @param isCorrect contains info about the answers correctness
+     */
     private fun displayFeedback(isCorrect: Boolean){
        if(isCorrect) {
            textFeedback.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0)
@@ -73,6 +89,9 @@ class QuizActivity : AppCompatActivity() {
         textFeedback.visibility = View.INVISIBLE
     }
 
+    /**
+     * Used to hide keyboard when the quiz is complete
+     */
     private fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)

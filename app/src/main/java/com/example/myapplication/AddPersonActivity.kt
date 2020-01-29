@@ -7,8 +7,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,15 +19,22 @@ class AddPersonActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_person)
     }
 
+    // used to distinguish between different activity results
     val REQUEST_IMAGE_CAPTURE = 1
     val REQUEST_IMAGE_PICK = 2
 
+    /**
+     * picks photo from phone
+     */
     fun pickPhoto(view: View){
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_IMAGE_PICK)
     }
 
+    /**
+     * captures photo using the camera
+     */
     fun takePhoto(view: View){
         dispatchTakePictureIntent()
     }
@@ -42,6 +47,11 @@ class AddPersonActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * called when user presses button to add the new person
+     * will take bitmap from imageview, and the person name from the edittext
+     * and use this information to create a new person and add it to the database
+     */
     fun addPerson(view: View){
         val bitmap: Bitmap = (imageView.drawable as BitmapDrawable).bitmap
         val person = Person(inputName.text.toString(), bitmap)
@@ -52,6 +62,10 @@ class AddPersonActivity : AppCompatActivity() {
         imageView.setImageDrawable(null)
     }
 
+    /**
+     * handles the results from both the capture photo and pick photo
+     * will in both cases add the bitmap to the imageview
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val imageView = findViewById<ImageView>(R.id.imageView)
