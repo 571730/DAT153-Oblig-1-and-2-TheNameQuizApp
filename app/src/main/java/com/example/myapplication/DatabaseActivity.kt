@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,8 +11,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_add_person.view.*
 import kotlinx.android.synthetic.main.my_text_view.*
 import kotlinx.android.synthetic.main.my_text_view.view.*
+import kotlinx.android.synthetic.main.my_text_view.view.button4
+import kotlinx.android.synthetic.main.my_text_view.view.itemImage
+import kotlinx.android.synthetic.main.my_text_view.view.itemName
+import kotlinx.android.synthetic.main.person_card.view.*
+import java.io.File
 
 class DatabaseActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -26,6 +34,7 @@ class DatabaseActivity : AppCompatActivity() {
         viewManager = LinearLayoutManager(this)
         viewAdapter = MyAdapter(data)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
+            setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
@@ -66,14 +75,17 @@ class MyAdapter(private val myDataset: ArrayList<Person>) :
                                     viewType: Int): MyAdapter.MyViewHolder {
         // create a new view
         val textView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.my_text_view, parent, false)
+            .inflate(R.layout.person_card, parent, false)
         // set the view's size, margins, paddings and layout parameters
         return MyViewHolder(textView)
     }
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.textView.itemName.text = myDataset[position].name
-        holder.textView.itemImage.setImageBitmap(myDataset[position].image)
+//        holder.textView.itemImage.setImageBitmap(myDataset[position].image)
+        Glide.with(holder.textView.itemImage.context)
+            .load(myDataset[position].image)
+            .into(holder.textView.itemImage)
         holder.textView.itemImage.clipToOutline = true
         holder.textView.button4.setOnClickListener{
             myDataset.removeAt(position)

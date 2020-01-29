@@ -9,6 +9,10 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_quiz.*
 
 class QuizActivity : AppCompatActivity() {
@@ -39,7 +43,11 @@ class QuizActivity : AppCompatActivity() {
      */
     private fun runRound(){
         val person = quiz.pickPerson()
-        imageViewGuess.setImageBitmap(person.image)
+//        imageViewGuess.setImageBitmap(person.image)
+        Glide.with(imageViewGuess.context)
+            .load(person.image)
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
+            .into(imageViewGuess)
     }
 
     /**
