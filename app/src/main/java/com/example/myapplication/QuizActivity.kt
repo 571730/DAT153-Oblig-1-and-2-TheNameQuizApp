@@ -85,6 +85,7 @@ class QuizActivity : AppCompatActivity() {
      */
     private fun displayFeedback(answerFeedback: AnswerFeedback){
        if(answerFeedback.isCorrect) {
+           textFeedback.text = ""
            textFeedback.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0)
        } else {
            textFeedback.text = answerFeedback.correctName
