@@ -64,10 +64,10 @@ class QuizActivity : AppCompatActivity() {
      * Will check if answer is correct, display feedback and check if the game is done
      */
     fun submitAnswer(view: View){
-        val isCorrect = quiz.answer(inputAnswer.text.toString())
+        val answerFeedback = quiz.answer(inputAnswer.text.toString())
         textPersons.text = quiz.attempts.toString()
         textScore.text = quiz.score.toString()
-        displayFeedback(isCorrect)
+        displayFeedback(answerFeedback)
         inputAnswer.setText("")
         if (!quiz.done){
             runRound()
@@ -83,10 +83,11 @@ class QuizActivity : AppCompatActivity() {
      * Used to display feedback on the users answers
      * @param isCorrect contains info about the answers correctness
      */
-    private fun displayFeedback(isCorrect: Boolean){
-       if(isCorrect) {
+    private fun displayFeedback(answerFeedback: AnswerFeedback){
+       if(answerFeedback.isCorrect) {
            textFeedback.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0)
        } else {
+           textFeedback.text = answerFeedback.correctName
            textFeedback.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_clear_24dp, 0, 0, 0)
        }
         textFeedback.visibility = View.VISIBLE

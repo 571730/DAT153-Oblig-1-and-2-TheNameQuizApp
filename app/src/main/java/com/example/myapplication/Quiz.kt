@@ -21,16 +21,16 @@ class Quiz (data: ArrayList<Person>){
      * @param ans the name the user guessed
      * @return was the answer correct?
      */
-    fun answer(ans: String): Boolean{
+    fun answer(ans: String): AnswerFeedback{
         attempts++
-        var correct = false
+        val answerFeedback = AnswerFeedback(false, people[index].name)
         if (ans.equals(people[index].name, true)) {
             score++
-            correct = true
+            answerFeedback.isCorrect = true
         }
         index++
         done = isDone()
-        return  correct
+        return  answerFeedback
     }
 
     /**
