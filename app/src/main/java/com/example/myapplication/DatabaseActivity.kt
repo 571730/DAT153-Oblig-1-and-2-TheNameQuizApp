@@ -80,8 +80,8 @@ class MyAdapter(private val myDataset: ArrayList<Person>) :
             .into(holder.textView.itemImage)
         holder.textView.itemImage.clipToOutline = true
         holder.textView.button4.setOnClickListener{
-            myDataset.removeAt(position)
-            notifyDataSetChanged()
+            myDataset.removeAt(holder.adapterPosition)
+            notifyItemRemoved(holder.adapterPosition)
         }
     }
     // Return the size of your dataset (invoked by the layout manager)
@@ -89,7 +89,7 @@ class MyAdapter(private val myDataset: ArrayList<Person>) :
 
     fun removeItem(position: Int) {
         myDataset.removeAt(position)
-        notifyDataSetChanged()
+        notifyItemRemoved(position)
     }
 
 }
