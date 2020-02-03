@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.app.Application
 import android.graphics.BitmapFactory
+import androidx.room.Room
 
 /**
  * class is used as a database for the application
