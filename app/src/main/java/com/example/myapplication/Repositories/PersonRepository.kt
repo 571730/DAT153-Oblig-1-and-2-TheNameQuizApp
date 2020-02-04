@@ -10,4 +10,8 @@ class PersonRepository (private val personDAO: PersonDAO) {
     suspend fun insert(person: PersonEntity){
         personDAO.insert(person)
     }
+
+    suspend fun remove(person: PersonEntity) {
+        personDAO.delete(person)
+    }
 }

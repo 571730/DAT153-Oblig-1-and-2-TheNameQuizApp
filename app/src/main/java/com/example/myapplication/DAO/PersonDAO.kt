@@ -12,15 +12,15 @@ interface PersonDAO {
     @Query("SELECT * FROM personentity")
     fun getAll(): LiveData<List<PersonEntity>>
 
-    @Query("SELECT * FROM personentity WHERE uid IN (:personIds)")
+    @Query("SELECT * FROM personentity WHERE id IN (:personIds)")
     fun loadAllByIds(personIds: IntArray): List<PersonEntity>
 
     @Insert
     fun insertAll(vararg persons: PersonEntity)
 
     @Insert
-    fun insert(person: PersonEntity)
+    suspend fun insert(person: PersonEntity)
 
     @Delete
-    fun delete(person: PersonEntity)
+    suspend fun delete(person: PersonEntity)
 }

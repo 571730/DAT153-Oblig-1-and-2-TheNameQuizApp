@@ -27,9 +27,12 @@ abstract class AppDatabase : RoomDatabase() {
                     val personDao = database.personDao()
 
                     // Add some people
-                    personDao.insert(PersonEntity(name = "Donald Trump", picture = BitmapFactory.decodeResource(Application().resources, R.drawable.trump)))
-                    personDao.insert(PersonEntity(name = "Donald Trump jr", picture = BitmapFactory.decodeResource(Application().resources, R.drawable.trumpjr)))
-                    personDao.insert(PersonEntity(name = "Donald Trump", picture = BitmapFactory.decodeResource(Application().resources, R.drawable.trump)))
+                    personDao.insert(PersonEntity(name = "Donald Trump",
+                        picture = "res/drawable/trump.jpg"))
+                    personDao.insert(PersonEntity(name = "Donald Trump jr",
+                        picture = "res/drawable/trumpjr.jpg"))
+                    personDao.insert(PersonEntity(name = "Barrack Obama",
+                        picture = "res/drawable/obama.jpg"))
                 }
             }
         }
@@ -51,7 +54,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "app_database"
                 )
-                    .addCallback(AppDatabaseCallback(scope))
+//                    .addCallback(AppDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
                 // return instance

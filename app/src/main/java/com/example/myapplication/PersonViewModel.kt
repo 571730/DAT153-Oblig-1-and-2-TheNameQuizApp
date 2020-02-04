@@ -33,5 +33,9 @@ class PersonViewModel(application: Application) : AndroidViewModel(application) 
     fun insert(person: PersonEntity) = viewModelScope.launch {
         repository.insert(person)
     }
+
+    fun remove(person: PersonEntity) = viewModelScope.launch {
+        repository.remove(person)
+    }
 }
 
