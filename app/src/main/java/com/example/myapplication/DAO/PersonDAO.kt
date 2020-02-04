@@ -23,4 +23,8 @@ interface PersonDAO {
 
     @Delete
     suspend fun delete(person: PersonEntity)
+
+    @Query("SELECT * FROM personentity")
+    fun getPeopleList(): List<PersonEntity>
+
 }

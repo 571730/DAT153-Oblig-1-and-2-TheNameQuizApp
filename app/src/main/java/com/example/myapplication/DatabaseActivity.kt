@@ -33,7 +33,7 @@ class DatabaseActivity : AppCompatActivity() {
 //        val data = (application as AppSingleton).data
         personViewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
         viewManager = LinearLayoutManager(this)
-        val viewAdapter = MyAdapter(this)
+        val viewAdapter = MyAdapter(this, personViewModel)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
@@ -68,11 +68,12 @@ class DatabaseActivity : AppCompatActivity() {
     }
 }
 
-class MyAdapter(context: Context) :
+class MyAdapter(context: Context, personViewModel: PersonViewModel) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     private var people = emptyList<PersonEntity>()
     private val inflater = LayoutInflater.from(context)
+    private val personViewModel = personViewModel
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -89,14 +90,13 @@ class MyAdapter(context: Context) :
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.textView.itemName.text = people[position].name
-        Log.i("pic", people[position].picture)
         Glide.with(holder.textView.itemImage.context)
             .load(people[position].picture)
             .into(holder.textView.itemImage)
         holder.textView.itemImage.clipToOutline = true
-//        holder.textView.button4.setOnClickListener{
-//
-//        }
+        holder.textView.button4.setOnClickListener{
+           personViewModel.remove(people[position])
+        }
     }
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = people.size

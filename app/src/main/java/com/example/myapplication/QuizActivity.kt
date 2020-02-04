@@ -8,19 +8,22 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.example.myapplication.Entity.PersonEntity
 import kotlinx.android.synthetic.main.activity_quiz.*
 
 class QuizActivity : AppCompatActivity() {
     lateinit var quiz: Quiz
-    lateinit var data: ArrayList<Person>
+    lateinit var data: ArrayList<PersonEntity>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
-        data = (application as AppSingleton).data
+        val personViewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
+        data = personViewModel.getPeopleList()
         quiz = Quiz(data)
         // enables the user to press enter to submit an answer
         inputAnswer.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
