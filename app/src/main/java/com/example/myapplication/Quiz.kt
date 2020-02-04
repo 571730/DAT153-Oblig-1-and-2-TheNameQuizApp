@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import com.example.myapplication.Entity.PersonEntity
+
 /**
  * class is used to keep track of the quiz and all its states
  * @param data is the list of people from the database
@@ -9,12 +11,12 @@ package com.example.myapplication
  * @property index points to the current position in the list of people
  * @property people a shuffled copy of the data
  */
-class Quiz (data: ArrayList<Person>){
+class Quiz (data: ArrayList<PersonEntity>){
     var score: Int
     var attempts: Int
     var done: Boolean
     var index: Int
-    var people: ArrayList<Person>
+    var people: ArrayList<PersonEntity>
 
     /**
      * called when the user submits an answer
@@ -37,7 +39,7 @@ class Quiz (data: ArrayList<Person>){
      * gets the next person in the quiz
      * @return the next person object
      */
-    fun pickPerson(): Person {
+    fun pickPerson(): PersonEntity {
         val person = people[index]
         return person
     }

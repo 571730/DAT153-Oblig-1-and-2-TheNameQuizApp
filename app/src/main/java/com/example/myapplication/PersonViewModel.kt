@@ -37,7 +37,5 @@ class PersonViewModel(application: Application) : AndroidViewModel(application) 
     fun remove(person: PersonEntity) = viewModelScope.launch {
         repository.remove(person)
     }
-
-    fun getPeopleList() = viewModelScope.launch { repository.getPeopleList() }
 }
 

@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -23,19 +25,27 @@ class QuizActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
         val personViewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
-        data = personViewModel.getPeopleList()
-        quiz = Quiz(data)
-        // enables the user to press enter to submit an answer
-        inputAnswer.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                if (!quiz.done){
-                    submitAnswer(inputAnswer)
-                }
-                return@OnKeyListener true
+        personViewModel.allPeople.observe(this, Observer {
+            if (it.isEmpty()) {
+                Toast.makeText(this, "Please add some people in the database", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, AddPersonActivity::class.java)
+                startActivity(intent)
+            } else {
+                data = ArrayList(it)
+                quiz = Quiz(data)
+                inputAnswer.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+                    if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                        if (!quiz.done){
+                            submitAnswer(inputAnswer)
+                        }
+                        return@OnKeyListener true
+                    }
+                    false
+                })
+                runRound()
             }
-            false
         })
-        runRound()
+        // enables the user to press enter to submit an answer
     }
 
     /**
@@ -45,7 +55,7 @@ class QuizActivity : AppCompatActivity() {
     private fun runRound(){
         val person = quiz.pickPerson()
         Glide.with(imageViewGuess.context)
-            .load(person.image)
+            .load(person.picture)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
             .into(imageViewGuess)
     }

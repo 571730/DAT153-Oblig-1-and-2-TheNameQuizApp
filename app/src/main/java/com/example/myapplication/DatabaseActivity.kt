@@ -68,12 +68,11 @@ class DatabaseActivity : AppCompatActivity() {
     }
 }
 
-class MyAdapter(context: Context, personViewModel: PersonViewModel) :
+class MyAdapter(context: Context, val personViewModel: PersonViewModel) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     private var people = emptyList<PersonEntity>()
     private val inflater = LayoutInflater.from(context)
-    private val personViewModel = personViewModel
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
