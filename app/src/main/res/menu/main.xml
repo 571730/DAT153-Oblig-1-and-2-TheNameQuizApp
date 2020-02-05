@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/changeUser"
+       android:id="@+id/changeUsernameItem"
+        />
+    <item android:title="@string/btnQuiz"
+        android:id="@+id/playItem"
+        />
+    <item android:title="@string/btnAdd"
+        android:id="@+id/addNewItem"
+        />
+    <item android:title="@string/btnDb"
+        android:id="@+id/seeAllItem"
+        />
+</menu>

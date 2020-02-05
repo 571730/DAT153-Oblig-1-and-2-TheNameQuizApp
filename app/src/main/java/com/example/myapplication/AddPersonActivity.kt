@@ -11,6 +11,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -34,6 +37,34 @@ class AddPersonActivity : AppCompatActivity() {
     private var imageUri: Uri? = Uri.EMPTY
     private lateinit var personViewModel: PersonViewModel
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.changeUsernameItem -> {
+                startActivity(Intent(this, NameActivity::class.java))
+                true
+            }
+            R.id.addNewItem -> {
+                startActivity(Intent(this, DatabaseActivity::class.java))
+                true
+            }
+            R.id.playItem -> {
+                startActivity(Intent(this, QuizActivity::class.java))
+                true
+            }
+            R.id.seeAllItem -> {
+                startActivity(Intent(this, DatabaseActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_person)
@@ -184,7 +215,7 @@ class AddPersonActivity : AppCompatActivity() {
         }
     }
 
-    lateinit var currentPhotoPath: String
+    private lateinit var currentPhotoPath: String
 
     @Throws(IOException::class)
     private fun createImageFile(): File {

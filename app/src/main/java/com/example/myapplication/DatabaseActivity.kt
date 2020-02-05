@@ -8,9 +8,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -30,6 +28,34 @@ class DatabaseActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var personViewModel: PersonViewModel
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.changeUsernameItem -> {
+                startActivity(Intent(this, NameActivity::class.java))
+                true
+            }
+            R.id.addNewItem -> {
+                startActivity(Intent(this, DatabaseActivity::class.java))
+                true
+            }
+            R.id.playItem -> {
+                startActivity(Intent(this, QuizActivity::class.java))
+                true
+            }
+            R.id.seeAllItem -> {
+                startActivity(Intent(this, DatabaseActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

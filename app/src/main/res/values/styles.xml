@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPurple</item>
         <item name="colorPrimaryDark">@color/colorDarkPurple</item>
         <item name="colorAccent">@color/colorPurpleAccent</item>
+        <item name="android:itemBackground">@color/colorPurple</item>
+        <item name="android:itemTextAppearance">@style/AppTheme.MenuTextStyle</item>
+    </style>
+    <style name="AppTheme.MenuTextStyle" >
+        <item name="android:textColor">@color/colorDarkestPurple</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

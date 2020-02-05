@@ -25,6 +25,9 @@
             android:name=".AddPersonActivity"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".NameActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".DatabaseActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
