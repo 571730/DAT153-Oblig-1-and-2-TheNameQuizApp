@@ -5,9 +5,10 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
+import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -16,6 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -23,6 +25,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.Entity.PersonEntity
 import kotlinx.android.synthetic.main.activity_add_person.*
 import kotlinx.android.synthetic.main.activity_quiz.*
+import java.io.File
+import java.io.IOException
+import java.util.*
 
 
 class AddPersonActivity : AppCompatActivity() {
@@ -39,12 +44,13 @@ class AddPersonActivity : AppCompatActivity() {
     val REQUEST_IMAGE_CAPTURE = 1
     val REQUEST_IMAGE_PICK = 2
     val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 3
+    val MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 4
 
     /**
      * picks photo from phone
      */
     fun pickPhoto(view: View){
-        checkPermissions()
+        checkReadPermissions()
     }
 
     private fun pickPhotoIfPermissionOK(){
@@ -70,52 +76,76 @@ class AddPersonActivity : AppCompatActivity() {
                     pickPhotoIfPermissionOK()
                 }
             }
+            MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Log.i("Ask permission", "Permission has been denied by user")
+                    buttonCamera.isClickable = false
+                } else {
+                    Log.i("Ask permission", "Permission has been granted by user")
+                    dispatchTakePictureIntent()
+                }
+            }
         }
     }
 
-    private fun checkPermissions(){
-        // Here, thisActivity is the current activity
+    private fun checkReadPermissions(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) {
-
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        } else {
+        }
+        else {
             // Permission has already been granted
             pickPhotoIfPermissionOK()
         }
 
     }
 
+    private fun checkWritePermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
+        } else {
+            dispatchTakePictureIntent()
+        }
+    }
+
     /**
      * captures photo using the camera
      */
     fun takePhoto(view: View){
-        dispatchTakePictureIntent()
+        checkWritePermissions()
     }
 
     private fun dispatchTakePictureIntent() {
+
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+                    Log.i("imgCapture", "Error while creating file for image capture")
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this,
+                        "${BuildConfig.APPLICATION_ID}.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
             }
         }
+
     }
 
     /**
@@ -124,10 +154,8 @@ class AddPersonActivity : AppCompatActivity() {
      * and use this information to create a new person and add it to the database
      */
     fun addPerson(view: View){
-//        val bitmap: Bitmap = (imageView.drawable as BitmapDrawable).bitmap
-        val person = PersonEntity(name = inputName.text.toString(), picture = imageUri.toString())
-//        val data = (application as AppSingleton).data
-//        data.add(person)
+        val person = PersonEntity(name = inputName.text.toString(),
+            picture = if (currentPhotoPath.isEmpty()) imageUri.toString() else currentPhotoPath )
         personViewModel.insert(person)
         Toast.makeText(this, "${inputName.text} added to database!", Toast.LENGTH_SHORT).show()
         inputName.setText("")
@@ -149,11 +177,28 @@ class AddPersonActivity : AppCompatActivity() {
                 .into(imageView)
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
-            val imageBitmap: Bitmap = data?.extras?.get("data") as Bitmap
             Glide.with((imageView))
-                .load(imageBitmap)
+                .load(currentPhotoPath)
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
                 .into(imageView)
         }
     }
+
+    lateinit var currentPhotoPath: String
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+    }
+
 }

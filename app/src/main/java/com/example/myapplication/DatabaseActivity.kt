@@ -1,7 +1,9 @@
 package com.example.myapplication
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +11,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -16,10 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.Entity.PersonEntity
+import kotlinx.android.synthetic.main.activity_add_person.*
+import kotlinx.android.synthetic.main.activity_quiz.*
 import kotlinx.android.synthetic.main.my_text_view.view.button4
 import kotlinx.android.synthetic.main.my_text_view.view.itemImage
 import kotlinx.android.synthetic.main.my_text_view.view.itemName
-import java.io.File
 
 class DatabaseActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -30,7 +35,6 @@ class DatabaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_database)
 
-//        val data = (application as AppSingleton).data
         personViewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
         viewManager = LinearLayoutManager(this)
         val viewAdapter = MyAdapter(this, personViewModel)
@@ -89,6 +93,7 @@ class MyAdapter(context: Context, val personViewModel: PersonViewModel) :
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.textView.itemName.text = people[position].name
+        Log.i("addPic", "added picture ${people[position].name} from ${people[position].picture}")
         Glide.with(holder.textView.itemImage.context)
             .load(people[position].picture)
             .into(holder.textView.itemImage)
