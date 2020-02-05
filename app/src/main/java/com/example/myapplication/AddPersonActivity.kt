@@ -155,7 +155,7 @@ class AddPersonActivity : AppCompatActivity() {
      */
     fun addPerson(view: View){
         val person = PersonEntity(name = inputName.text.toString(),
-            picture = if (currentPhotoPath.isEmpty()) imageUri.toString() else currentPhotoPath )
+            picture = imageUri.toString())
         personViewModel.insert(person)
         Toast.makeText(this, "${inputName.text} added to database!", Toast.LENGTH_SHORT).show()
         inputName.setText("")
@@ -198,6 +198,7 @@ class AddPersonActivity : AppCompatActivity() {
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
             currentPhotoPath = absolutePath
+            imageUri = Uri.fromFile(this)
         }
     }
 
