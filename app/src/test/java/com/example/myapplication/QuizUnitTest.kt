@@ -1,8 +1,7 @@
 package com.example.myapplication
 
 import com.example.myapplication.Entity.PersonEntity
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
+import junit.framework.Assert.*
 import org.junit.Test
 
 class QuizUnitTest {
@@ -35,4 +34,19 @@ class QuizUnitTest {
         assertTrue(quiz.attempts == 1)
     }
 
+    @Test
+    fun checkFinalScore(){
+        val shouldBeWrongName = "This is not a name"
+        assertTrue(quiz.score == 0)
+        val feedback = quiz.answer(shouldBeWrongName)
+        assertFalse(feedback.isCorrect)
+        assertTrue(quiz.score == 0)
+        assertTrue(quiz.attempts == 1)
+        val shouldBeCorrectName = quiz.pickPerson().name
+        quiz.answer(shouldBeCorrectName)
+        assertTrue(quiz.score == 1)
+        assertTrue(quiz.attempts == 2)
+        val points = quiz.calculateFinalScore()
+        assertEquals(100, points)
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import com.example.myapplication.Entity.PersonEntity
+import kotlin.math.roundToInt
 
 /**
  * class is used to keep track of the quiz and all its states
@@ -59,5 +60,10 @@ class Quiz (data: ArrayList<PersonEntity>){
         done = false
         data.shuffle()
         people = data
+    }
+
+    fun calculateFinalScore(): Int {
+        val calculatedScore = (attempts * 100).toDouble() * (score.toFloat()/attempts.toFloat())
+        return calculatedScore.roundToInt()
     }
 }
