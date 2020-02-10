@@ -64,7 +64,7 @@ class AddPersonActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_person)
@@ -188,9 +188,9 @@ class AddPersonActivity : AppCompatActivity() {
         val person = PersonEntity(name = inputName.text.toString(),
             picture = imageUri.toString())
         personViewModel.insert(person)
-        Toast.makeText(this, "${inputName.text} added to database!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "${inputName.text} added to database!", Toast.LENGTH_LONG).show()
         inputName.setText("")
-        imageView.setImageDrawable(null)
+        imageView.setImageResource(R.drawable.ic_face_24dp)
     }
 
     /**
