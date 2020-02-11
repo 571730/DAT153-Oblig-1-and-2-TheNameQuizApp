@@ -18,4 +18,5 @@
     <string name="prefKey">prefs</string>
     <string name="welcome">Welcome back %1$s!</string>
     <string name="changeUser">Change username</string>
+    <string name="highscore">Highscores</string>
 </resources>
