@@ -14,7 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.DrawableTransformation
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.Entity.PersonEntity
 import com.example.myapplication.Entity.ScoreEntity
@@ -76,6 +78,7 @@ class QuizActivity : AppCompatActivity() {
         Glide.with(imageViewGuess.context)
             .load(person.picture)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
+            .transition(DrawableTransitionOptions.withCrossFade(500))
             .into(imageViewGuess)
     }
 
